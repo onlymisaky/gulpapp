@@ -7,10 +7,9 @@ const htmlmin = require("gulp-htmlmin"); // 压缩html
 const imagemin = require('gulp-imagemin'); // 压缩图片
 const cache = require('gulp-cache'); // 缓存
 const rename = require("gulp-rename"); // 重命名
-const rev = require("gulp-rev"); //给文件添加MD5
-const flatten = require('gulp-flatten'); //移动文件，去掉层级目录
+const flatten = require('gulp-flatten'); // 移动文件，去掉层级目录
 const del = require("del"); // 删除文件        
-const browserSync = require('browser-sync').create(); //及时刷新，浏览器同步
+const browserSync = require('browser-sync').create(); // 及时刷新，浏览器同步
 const proxyMiddleware = require('http-proxy-middleware'); //反向代理   
 const api = "http://www.api.com";
 /**
@@ -81,13 +80,11 @@ gulp.task("build:js", function () {
             paths.src.app + "/views/**/*.router.js"
         ])
         .pipe(concat("app.js"))
-        // .pipe(rev())
         .pipe(gulp.dest(paths.dist.js))
         .pipe(uglify())
         .pipe(rename({
             suffix: ".min"
         }))
-        // .pipe(rev())
         .pipe(gulp.dest(paths.dist.js));
 });
 
@@ -101,13 +98,11 @@ gulp.task("build:css", function () {
         ])
         .pipe(concat("style.css"))
         .pipe(sass().on("error", sass.logError))
-        // .pipe(rev())
         .pipe(gulp.dest(paths.dist.css))
         .pipe(cssnano())
         .pipe(rename({
             suffix: ".min"
         }))
-        // .pipe(rev())
         .pipe(gulp.dest(paths.dist.css));
 });
 
@@ -144,7 +139,7 @@ gulp.task("build:images", function () {
  */
 gulp.task("build:html:app", function () {
     return gulp
-        .src(paths.src.app + "/*.html")
+        .src([paths.src.app + "/*.html"])
         .pipe(gulp.dest(paths.dist.root));
 });
 
