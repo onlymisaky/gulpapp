@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/bower_components
+/dist
+/node_modules
+*.log
