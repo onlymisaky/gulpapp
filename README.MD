@@ -1,4 +1,4 @@
-#gulpapp
+# gulpapp
 
 用gulp构建angular项目
 
