@@ -1,9 +1,5 @@
-// 引入iconfont字体
-@import "../fonts/font";
-$designWidth:750; // 设计稿大小
-$fontSize:40; // 默认根字体大小，可根据dpi适当调整
 @function pxToRem($px) {
-    @return $px /$fontSize+rem;
+    @return $px /40+rem;
 }
 
 // 响应式，自动调整跟字体大小
@@ -141,3 +137,5 @@ input {
 .transitionAll {
     transition: all 0.3s;
 }
+
+@import "../fonts/font";
