@@ -41,6 +41,7 @@ const paths = {
         images: "dist/assets/images",
         js: "dist/assets/js",
         lib: "dist/lib",
+        rev: "dist/rev",
         views: "dist/views"
     },
     src: {
@@ -52,8 +53,7 @@ const paths = {
         rev: "src/rev",
         sass: "src/sass"
     },
-    bower: "bower_components",
-    rev: ""
+    bower: "bower_components"
 }
 
 /**
@@ -151,7 +151,7 @@ gulp.task("build:images", function () {
 gulp.task("build:html:app", function () {
     return gulp
         // 路径中同时添加json文件的路径
-        .src([paths.src.rev + "/css/rev-manifest.json", paths.src.app + "/*.html"])
+        .src([paths.src.rev + "/**/rev-manifest.json", paths.src.app + "/*.html"])
         // 根据rev生成的json文件，修改引用
         .pipe(revCollector({
             replaceReved: true
