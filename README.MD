@@ -16,6 +16,7 @@
     |----fonts 
     |----images 
     |----js（根js文件） 
+    |----rev（缓存信息目录）
     |----sass
 --dist（生产目录） 
     |----assets（依赖资源目录）    
@@ -23,7 +24,6 @@
         |----fonts      
         |----images       
         |----js（app.js目录）
-        |----rev（缓存信息目录）
     |----lib（依赖的包目录）      
     |----views（视图目录）     
         |----components（自定义组件视图）    

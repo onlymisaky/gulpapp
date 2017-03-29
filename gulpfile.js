@@ -39,7 +39,6 @@ const paths = {
         css: "dist/assets/css",
         fonts: "dist/assets/fonts",
         images: "dist/assets/images",
-        rev: "dist/assets/rev",
         js: "dist/assets/js",
         lib: "dist/lib",
         views: "dist/views"
@@ -50,6 +49,7 @@ const paths = {
         fonts: "src/fonts",
         images: "src/images",
         js: "src/js",
+        rev: "src/rev",
         sass: "src/sass"
     },
     bower: "bower_components",
