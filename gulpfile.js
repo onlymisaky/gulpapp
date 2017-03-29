@@ -8,6 +8,8 @@ const imagemin = require('gulp-imagemin'); // 压缩图片
 const cache = require('gulp-cache'); // 缓存
 const rename = require("gulp-rename"); // 重命名
 const flatten = require('gulp-flatten'); // 移动文件，去掉层级目录
+const rev = require("gulp-rev"); // 给文件MD5版本号
+const revCollector = require("gulp-rev-collector"); //根据清单内容替换标签，和gulp-rev配合使用
 const del = require("del"); // 删除文件        
 const browserSync = require('browser-sync').create(); // 及时刷新，浏览器同步
 const proxyMiddleware = require('http-proxy-middleware'); //反向代理   
@@ -37,6 +39,7 @@ const paths = {
         css: "dist/assets/css",
         fonts: "dist/assets/fonts",
         images: "dist/assets/images",
+        rev: "dist/assets/rev",
         js: "dist/assets/js",
         lib: "dist/lib",
         views: "dist/views"
@@ -49,7 +52,8 @@ const paths = {
         js: "src/js",
         sass: "src/sass"
     },
-    bower: "bower_components"
+    bower: "bower_components",
+    rev: ""
 }
 
 /**
@@ -62,7 +66,7 @@ gulp.task("build:lib", function () {
 });
 
 /**
- * 合并js、添加MD5、 压缩js、重命名为.min.js、 添加MD5
+ * 合并js、压缩js、重命名为.min.js
  */
 gulp.task("build:js", function () {
     return gulp
@@ -85,7 +89,10 @@ gulp.task("build:js", function () {
         .pipe(rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(paths.dist.js));
+        .pipe(rev()) // 添加HAS
+        .pipe(gulp.dest(paths.dist.js))
+        .pipe(rev.manifest()) // 生成json文件
+        .pipe(gulp.dest(paths.dist.rev + "/js"));
 });
 
 /**
@@ -103,7 +110,11 @@ gulp.task("build:css", function () {
         .pipe(rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(paths.dist.css));
+        .pipe(rev()) // 添加HAS
+        .pipe(gulp.dest(paths.dist.css))
+        .pipe(rev.manifest()) // 生成json文件
+        .pipe(gulp.dest(paths.dist.rev + "/css"));
+
 });
 
 /**
@@ -139,7 +150,12 @@ gulp.task("build:images", function () {
  */
 gulp.task("build:html:app", function () {
     return gulp
-        .src([paths.src.app + "/*.html"])
+        // 路径中同时添加json文件的路径
+        .src([paths.dist.rev + "/css/rev-manifest.json", paths.src.app + "/*.html"])
+        // 根据rev生成的json文件，修改引用
+        .pipe(revCollector({
+            replaceReved: true
+        }))
         .pipe(gulp.dest(paths.dist.root));
 });
 
@@ -195,7 +211,9 @@ gulp.task("build", [
     "build:html"
 ])
 
-
+/**
+ * 监听文件变化
+ */
 gulp.task("watch", ["build"], function () {
     gulp.watch(paths.bower + "/**/*", ["build:lib"]);
     gulp.watch([
