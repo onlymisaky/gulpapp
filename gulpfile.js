@@ -92,7 +92,7 @@ gulp.task("build:js", function () {
         .pipe(rev()) // 添加HAS
         .pipe(gulp.dest(paths.dist.js))
         .pipe(rev.manifest()) // 生成json文件
-        .pipe(gulp.dest(paths.dist.rev + "/js"));
+        .pipe(gulp.dest(paths.src.rev + "/js"));
 });
 
 /**
@@ -113,7 +113,7 @@ gulp.task("build:css", function () {
         .pipe(rev()) // 添加HAS
         .pipe(gulp.dest(paths.dist.css))
         .pipe(rev.manifest()) // 生成json文件
-        .pipe(gulp.dest(paths.dist.rev + "/css"));
+        .pipe(gulp.dest(paths.src.rev + "/css"));
 
 });
 
@@ -151,7 +151,7 @@ gulp.task("build:images", function () {
 gulp.task("build:html:app", function () {
     return gulp
         // 路径中同时添加json文件的路径
-        .src([paths.dist.rev + "/css/rev-manifest.json", paths.src.app + "/*.html"])
+        .src([paths.src.rev + "/css/rev-manifest.json", paths.src.app + "/*.html"])
         // 根据rev生成的json文件，修改引用
         .pipe(revCollector({
             replaceReved: true
