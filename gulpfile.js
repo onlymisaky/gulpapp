@@ -56,18 +56,14 @@ const paths = {
     bower: "bower_components"
 }
 
-/**
- * 将bower下载的资源复制到 ./dist/assets/js/lib 目录
- */
+// task 将bower下载的资源复制到 ./dist/assets/js/lib 目录
 gulp.task("build:lib", function () {
     return gulp
         .src(paths.bower + "/**/*")
         .pipe(gulp.dest(paths.dist.lib));
 });
 
-/**
- * 合并js、压缩js、重命名为.min.js
- */
+// task 合并js、压缩js、重命名为.min.js
 gulp.task("build:js", function () {
     return gulp
         .src([
@@ -95,9 +91,7 @@ gulp.task("build:js", function () {
         .pipe(gulp.dest(paths.src.rev + "/js"));
 });
 
-/**
- * 合并sass、转换为css、添加MD5、压缩css、重命名为.min.css、 添加MD5
- */
+// task 合并sass、转换为css、添加MD5、压缩css、重命名为.min.css、 添加MD5
 gulp.task("build:css", function () {
     return gulp
         .src([
@@ -117,9 +111,7 @@ gulp.task("build:css", function () {
 
 });
 
-/**
- * 移动fonts文件
- */
+// task 移动fonts文件
 gulp.task("build:fonts", function () {
     return gulp
         .src([
@@ -128,9 +120,7 @@ gulp.task("build:fonts", function () {
         .pipe(gulp.dest(paths.dist.fonts));
 })
 
-/**
- * 移动images文件
- */
+// task 移动images文件
 gulp.task("build:images", function () {
     return gulp
         .src([
@@ -145,9 +135,7 @@ gulp.task("build:images", function () {
         .pipe(gulp.dest(paths.dist.images));
 });
 
-/**
- * 移动app下html文件
- */
+// task 移动app下html文件
 gulp.task("build:html:app", function () {
     return gulp
         // 路径中同时添加json文件的路径
@@ -159,9 +147,7 @@ gulp.task("build:html:app", function () {
         .pipe(gulp.dest(paths.dist.root));
 });
 
-/**
- * 移动views下面的视图，保留父级目录
- */
+// task 移动views下面的视图，保留父级目录
 gulp.task("build:html:views", function () {
     return gulp
         .src(paths.src.app + "/views/**/*.html")
@@ -169,9 +155,7 @@ gulp.task("build:html:views", function () {
         .pipe(gulp.dest(paths.dist.views));
 });
 
-/**
- * 移动指令对应的视图,去除父级目录
- */
+// task 移动指令对应的视图,去除父级目录
 gulp.task("build:html:directives", function () {
     return gulp
         .src(paths.src.app + "/directives/**/*.html")
@@ -179,9 +163,7 @@ gulp.task("build:html:directives", function () {
         .pipe(gulp.dest(paths.dist.views + "/directives"));
 });
 
-/**
- * 移动组件对应的视图，去除父级目录
- */
+// task 移动组件对应的视图，去除父级目录
 gulp.task("build:html:components", function () {
     return gulp
         .src(paths.src.app + "/components/**/*.html")
@@ -189,9 +171,7 @@ gulp.task("build:html:components", function () {
         .pipe(gulp.dest(paths.dist.views + "/components"));
 });
 
-/**
- * 所有的html任务
- */
+// task 所有的html任务
 gulp.task("build:html", [
     "build:html:app",
     "build:html:views",
@@ -199,9 +179,7 @@ gulp.task("build:html", [
     "build:html:components"
 ]);
 
-/**
- * 所有任务
- */
+// task 所有任务
 gulp.task("build", [
     "build:lib",
     "build:js",
@@ -211,9 +189,7 @@ gulp.task("build", [
     "build:html"
 ])
 
-/**
- * 监听文件变化
- */
+// task 监听文件变化
 gulp.task("watch", ["build"], function () {
     gulp.watch(paths.bower + "/**/*", ["build:lib"]);
     gulp.watch([
@@ -230,14 +206,12 @@ gulp.task("watch", ["build"], function () {
     ], ["build:html"]);
 });
 
-/**
- * 删除项目目录
- */
+// task 删除项目目录
 gulp.task("clean", function () {
     return del(paths.dist.root);
 });
 
-gulp.task("run", ["watch"], function () {
+gulp.task("debug", ["watch"], function () {
     browserSync.init({
         startPath: '/',
         prot: "3000",
